@@ -1,5 +1,6 @@
 <div class="col-md-12 mb-4">
     <div style="overflow-y: auto">
+        <label>Title</label>
         <ul class="pagination mb-1">
             <li class="page-item {{$char == "a" ? "active" : ""}}"><a href="{{url()->current().'?char=a'}}" class="page-link" style="width: 38px">A</a></li>
             <li class="page-item {{$char == "b" ? "active" : ""}}"><a href="{{url()->current().'?char=b'}}" class="page-link" style="width: 38px">B</a></li>
@@ -55,9 +56,9 @@
                 </div>
             </div>
             <div class="col-md-6">
-                <label class="text-white">.</label>
+                <label>Keyword</label>
                 <div class="input-group">
-                    <input type="text" class="form-control keyword" value="{{$keyword}}" name="keyword" placeholder="Enter your keyword">
+                    <input type="text" class="form-control keyword" value="{{$keyword}}" name="keyword" placeholder="Search title, abstract, title or subject">
                     <div class="input-group-btn">
                         <button class="btn btn-search" type="submit">
                             <i class="fa fa-search"></i>

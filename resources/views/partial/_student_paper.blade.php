@@ -109,7 +109,7 @@
                 </div>
             </div>
             <hr/>
-            <div class="row">
+            <div class="row mb-4">
                 <div class="col-12 text-left">
                     <button id="btn_save" type="submit" class="btn btn-success w-25">Save</button>
                 </div>

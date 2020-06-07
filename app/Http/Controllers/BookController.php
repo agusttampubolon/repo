@@ -39,7 +39,7 @@ class BookController extends Controller
             'char' =>$request->char,
         ];
 
-        return View::make('guide_book.index')->with($pageVars);
+        return View::make('book.index')->with($pageVars);
     }
 
     public function admin_index(){

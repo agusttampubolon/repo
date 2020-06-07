@@ -26,7 +26,7 @@
                     </div>
                     <div class="col-9 pl-0">
                         <div class="input-group">
-                            <input type="text" class="form-control keyword" value="{{$keyword}}" name="keyword" placeholder="Keyword">
+                            <input type="text" class="form-control keyword" value="{{$keyword}}" name="keyword" placeholder="Search title, abstract, title or subject">
                             <div class="input-group-btn">
                                 <button class="btn btn-search" type="submit">
                                     <i class="fa fa-search"></i>

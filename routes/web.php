@@ -23,6 +23,14 @@ Route::get('/about', function () {
     return view('about');
 });
 
+Route::get('/contact', function () {
+    return view('contact');
+});
+
+Route::get('/faq', function () {
+    return view('faq');
+});
+
 Auth::routes();
 
 Route::get('/', 'HomeController@index')->name('home');

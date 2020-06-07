@@ -74,6 +74,10 @@ class FilterController extends Controller
             $data = Communities::
                 orWhere('title','like','%'.$request->keyword.'%')
                 ->orWhere('author_1','like','%'.$request->keyword.'%')
+                ->orWhere('author_2','like','%'.$request->keyword.'%')
+                ->orWhere('author_3','like','%'.$request->keyword.'%')
+                ->orWhere('author_4','like','%'.$request->keyword.'%')
+                ->orWhere('author_5','like','%'.$request->keyword.'%')
                 ->orWhere('abstract_eng','like','%'.$request->keyword.'%')
                 ->orWhere('issued_date','like','%'.$request->keyword.'%')
                 ->orWhere('subject','like','%'.$request->keyword.'%')
@@ -118,7 +122,9 @@ class FilterController extends Controller
 
         $pageVars = [
             'data'=>$data,
-            'keyword'=>$request->keyword
+            'keyword'=>$request->keyword,
+            'char'=>$request->char,
+            'filter' => 'Title'
         ];
 
         return View::make('filter.title')->with($pageVars);
@@ -127,7 +133,11 @@ class FilterController extends Controller
     public function filter_by_author(Request $request){
         if($request->char){
             $data = Communities::orderBy('id','asc')
-                ->where('author_1','like', $request->char.'%')
+                ->orWhere('author_1','like', $request->char.'%')
+                ->orWhere('author_2','like', $request->char.'%')
+                ->orWhere('author_3','like', $request->char.'%')
+                ->orWhere('author_4','like', $request->char.'%')
+                ->orWhere('author_5','like', $request->char.'%')
                 ->where('publish_status','=','publish')
                 ->paginate(Helper::page());
         }elseif ($request->keyword){
@@ -143,7 +153,9 @@ class FilterController extends Controller
 
         $pageVars = [
             'data'=>$data,
-            'keyword'=>$request->keyword
+            'keyword'=>$request->keyword,
+            'char'=>$request->char,
+            'filter' => 'Author'
         ];
 
         return View::make('filter.author')->with($pageVars);
@@ -151,8 +163,9 @@ class FilterController extends Controller
 
     public function filter_by_subject(Request $request){
         if($request->char){
-            $data = Communities::orderBy('id','asc')
-                ->where('subject','like', $request->char.'%')
+            $data = Communities::orderBy('Communities.id','asc')
+                ->join('subject','subject.communities_code','Communities.code')
+                ->where('subject_name','like', $request->char.'%')
                 ->where('publish_status','=','publish')
                 ->paginate(Helper::page());
         }elseif ($request->keyword){
@@ -168,7 +181,9 @@ class FilterController extends Controller
 
         $pageVars = [
             'data'=>$data,
-            'keyword'=>$request->keyword
+            'keyword'=>$request->keyword,
+            'char'=>$request->char,
+            'filter' => 'Subject'
         ];
 
         return View::make('filter.subject')->with($pageVars);
@@ -194,6 +209,10 @@ class FilterController extends Controller
             $data = Communities::
             orWhere('title','like','%'.$request->keyword.'%')
                 ->orWhere('author_1','like','%'.$request->keyword.'%')
+                ->orWhere('author_2','like','%'.$request->keyword.'%')
+                ->orWhere('author_3','like','%'.$request->keyword.'%')
+                ->orWhere('author_4','like','%'.$request->keyword.'%')
+                ->orWhere('author_5','like','%'.$request->keyword.'%')
                 ->orWhere('abstract_eng','like','%'.$request->keyword.'%')
                 ->orWhere('issued_date','like','%'.$request->keyword.'%')
                 ->orWhere('subject','like','%'.$request->keyword.'%')

@@ -59,10 +59,10 @@
                 <div class="col-md-6">
                     <small style="font-size: 12px">POLBANGTAN MEDAN REPOSITORY</small>
                 </div>
-                <div class="col-md-6">
+                <div id="top-menu-right" class="col-md-6">
                     <div style="text-align: right;top:3px;font-size: 10pt;color:#fff;padding-right: 15px;">
-                        <a class="text-light" href="{{ route('login') }}">Contact Us</a> |
-                        <a class="text-light" href="{{ route('login') }}">FAQ</a> |
+                        <a class="text-light" href="{{ url('/contact') }}">Contact Us</a> |
+                        <a class="text-light" href="{{ url('/faq') }}">FAQ</a> |
                         @guest
                             <a class="text-light" href="{{ route('login') }}">{{ __('Login') }}</a>
                             @if (Route::has('register'))
@@ -93,7 +93,7 @@
             </button>
             <form id="form_search" class="form-inline my-2 my-lg-0" action="{{url('/all?')}}" method="GET">
                 <div class="input-group">
-                    <input type="text" class="form-control keyword" style="width: 450px;" name="keyword" placeholder="Search by Title, Abstract, Author and Subject">
+                    <input type="text" class="form-control keyword" style="width: 450px;" name="keyword" placeholder="Search by Title, Abstract, Author or Subject">
                     <div class="input-group-btn">
                         <button class="btn btn-search" type="submit">
                             <i class="fa fa-search"></i>
@@ -103,10 +103,23 @@
             </form>
         </div>
     </nav>
-
-    <nav class="navbar navbar-expand-lg navbar-light bg-light sticky-top mb-2" style="background-color: #f1efef!important;">
+    <div class="row" id="form_search_mobile">
+        <div class="col-md-12">
+            <form class="form-inline my-2 my-lg-0" action="{{url('/all?')}}" method="GET">
+                <div class="input-group p-1">
+                    <input type="text" class="form-control keyword" name="keyword" placeholder="Search by Title, Abstract, Author or Subject">
+                    <div class="input-group-btn">
+                        <button class="btn btn-search" type="submit">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light" style="background-color: #f1efef!important;">
         <div class="container">
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <div class="collapse navbar-collapse" id="mobile_menu">
                 <ul class="navbar-nav mr-auto">
                     <li class="nav-item {{request()->is("/")}}">
                         <a class="nav-link" href="/">HOME <span class="sr-only">(current)</span></a>
@@ -137,7 +150,43 @@
         </div>
     </nav>
 
-    <div class="container mt-4">
+    <nav id="navbar" class="navbar navbar-expand-lg mb-2">
+        <div class="container">
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav mr-auto">
+                    <li style="background-color: #fff;">
+                        <img src="{{url('/images/logo.png')}}" width="100%" class="d-inline-block align-top" alt="" loading="lazy">
+                    </li>
+                    <li class="nav-item {{request()->is("/")}}">
+                        <a class="nav-link" href="/">HOME <span class="sr-only">(current)</span></a>
+                    </li>
+                    <li class="nav-item {{request()->is("article*") ? "active" : ""}}">
+                        <a class="nav-link" href="{{url('/article')}}">ARTICLE</a>
+                    </li>
+                    <li class="nav-item {{request()->is("guide-book*") ? "active" : ""}}">
+                        <a class="nav-link" href="{{url('/guide-book')}}">GUIDE BOOK</a>
+                    </li>
+                    <li class="nav-item {{request()->is("book*") ? "active" : ""}}">
+                        <a class="nav-link" href="{{url('/book')}}">BOOK</a>
+                    </li>
+                    <li class="nav-item {{request()->is("monograph*") ? "active" : ""}}">
+                        <a class="nav-link" href="{{url('/monograph')}}">MONOGRAPH</a>
+                    </li>
+                    <li class="nav-item {{request()->is("student-paper*") ? "active" : ""}}">
+                        <a class="nav-link" href="{{url('/student-paper')}}">STUDENT PAPER</a>
+                    </li>
+                    <li class="nav-item {{request()->is("archive*") ? "active" : ""}}">
+                        <a class="nav-link" href="{{url('/archive')}}">ARCHIVE</a>
+                    </li>
+                    <li class="nav-item {{request()->is("others*") ? "active" : ""}}">
+                        <a class="nav-link" href="{{url('/others')}}">OTHERS</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mt-3">
     <div style="position: relative;">
     @yield('breadcrumb')
     </div>
@@ -160,13 +209,23 @@
                             <li class="list-group-item"><a class="text-dark align-middle" href="{{ route('login') }}"><i data-feather="log-in" class="mr-2 align-middle"></i>Login</a></li>
                             <li class="list-group-item"><a class="text-dark" href="{{ route('register') }}"><i data-feather="user-plus" class="mr-2 align-middle"></i>Register</a></li>
                         @else
-                            <li class="list-group-item"><a class="text-dark align-middle" href="{{ url('/article/add') }}"><i data-feather="plus" class="mr-2"></i>Add Article</a></li>
-                            <li class="list-group-item"><a class="text-dark align-middle" href="{{ url('/guide-book/add') }}"><i data-feather="plus" class="mr-2"></i>Add Guide Book</a></li>
-                            <li class="list-group-item"><a class="text-dark align-middle" href="{{ url('/book/add') }}"><i data-feather="plus" class="mr-2"></i>Add Book</a></li>
-                            <li class="list-group-item"><a class="text-dark align-middle" href="{{ url('/monograph/add') }}"><i data-feather="plus" class="mr-2"></i>Add Monograph</a></li>
-                            <li class="list-group-item"><a class="text-dark align-middle" href="{{ url('/student-paper/add') }}"><i data-feather="plus" class="mr-2"></i>Add Student Paper</a></li>
-                            <li class="list-group-item"><a class="text-dark align-middle" href="{{ url('/archive/add') }}"><i data-feather="plus" class="mr-2"></i>Add Archive</a></li>
-                            <li class="list-group-item"><a class="text-dark align-middle" href="{{ url('/others/add') }}"><i data-feather="plus" class="mr-2"></i>Add Other</a></li>
+                            @if(Auth::user()->role == "administrator")
+                            <li class="list-group-item"><a class="text-dark align-middle" href="{{ url('/admin/article/add') }}"><i data-feather="plus" class="mr-2"></i>Add Article</a></li>
+                            <li class="list-group-item"><a class="text-dark align-middle" href="{{ url('/admin/guide-book/add') }}"><i data-feather="plus" class="mr-2"></i>Add Guide Book</a></li>
+                            <li class="list-group-item"><a class="text-dark align-middle" href="{{ url('/admin/book/add') }}"><i data-feather="plus" class="mr-2"></i>Add Book</a></li>
+                            <li class="list-group-item"><a class="text-dark align-middle" href="{{ url('/admin/monograph/add') }}"><i data-feather="plus" class="mr-2"></i>Add Monograph</a></li>
+                            <li class="list-group-item"><a class="text-dark align-middle" href="{{ url('/admin/student-paper/add') }}"><i data-feather="plus" class="mr-2"></i>Add Student Paper</a></li>
+                            <li class="list-group-item"><a class="text-dark align-middle" href="{{ url('/admin/archive/add') }}"><i data-feather="plus" class="mr-2"></i>Add Archive</a></li>
+                            <li class="list-group-item"><a class="text-dark align-middle" href="{{ url('/admin/others/add') }}"><i data-feather="plus" class="mr-2"></i>Add Other</a></li>
+                            @elseif(Auth::user()->role == "student")
+                                <li class="list-group-item"><a class="text-dark align-middle" href="{{ url('/student-paper/add') }}"><i data-feather="plus" class="mr-2"></i>Add Student Paper</a></li>
+                                <li class="list-group-item"><a class="text-dark align-middle" href="{{ url('/change-password') }}"><i data-feather="key" class="mr-2"></i>Change Password</a></li>
+                            @elseif(Auth::user()->role == "lecture")
+                                <li class="list-group-item"><a class="text-dark align-middle" href="{{ url('/article/add') }}"><i data-feather="plus" class="mr-2"></i>Add Article</a></li>
+                                <li class="list-group-item"><a class="text-dark align-middle" href="{{ url('/change-password') }}"><i data-feather="key" class="mr-2"></i>Change Password</a></li>
+                            @else
+                                <li class="list-group-item"><a class="text-dark align-middle" href="{{ url('/change-password') }}"><i data-feather="key" class="mr-2"></i>Change Password</a></li>
+                            @endif
                         @endif
                     </ul>
                 </div>
@@ -241,7 +300,7 @@
                 <ul class="list-unstyled">
                     <li><a href="{{url('/about')}}">About</a> </li>
                     <li><a href="{{url('/faq')}}">FAQ</a> </li>
-                    <li><a href="{{url('/contact-us')}}">Contact Us</a> </li>
+                    <li><a href="{{url('/contact')}}">Contact Us</a> </li>
                 </ul>
             </div>
             <div class="col-md-2 mt-4">
@@ -288,6 +347,16 @@
             }
         })
     });
+
+    window.onscroll = function() {scrollFunction()};
+
+    function scrollFunction() {
+        if (document.body.scrollTop > 70 || document.documentElement.scrollTop > 70) {
+            document.getElementById("navbar").style.top = "0";
+        } else {
+            document.getElementById("navbar").style.top = "-71px";
+        }
+    }
 </script>
 </body>
 </html>

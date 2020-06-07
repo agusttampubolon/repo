@@ -49,7 +49,7 @@ class ArchiveController extends Controller
             'char' =>$request->char,
         ];
 
-        return View::make('guide_book.index')->with($pageVars);
+        return View::make('archive.index')->with($pageVars);
     }
 
     public function admin_index(){

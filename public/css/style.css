@@ -113,6 +113,12 @@ a {
         padding-right: 5px;
         padding-left: 5px;
     }
+    #top-menu-right{
+        display: none;
+    }
+    #navbar{
+        display: none;
+    }
 }
 
 .btn-primary {
@@ -224,9 +230,9 @@ input[type="search"]:focus,
 input[type="tel"]:focus,
 input[type="color"]:focus,
 .uneditable-input:focus {
-    border-color: #2f4f4f;
-    box-shadow:#2f4f4f;
-    outline: 0 none;
+    border-color: #2f4f4f!important;
+    box-shadow:none!important;
+    outline: 0 none!important;
 }
 
 .bg-dark {
@@ -243,8 +249,51 @@ ul.navbar-nav .active{
     color: #2f4e4f;
     font-weight: 600;
 }
+ul.navbar-nav a:hover{
+    background-color: #2f4e4f;
+    color: #fff!important;
+}
 .page-item.active .page-link{
     color: #fff!important;
     background-color: #2f4e4f!important;
     border-color: #2f4e4f!important;
+}
+
+@media screen and (min-width: 900px) {
+    #navbar {
+        background-color: #fff;
+        position: fixed;
+        top: -71px;
+        width: 100%;
+        display: block;
+        transition: top 0.3s;
+        z-index: 9999;
+        -webkit-box-shadow: 0 8px 6px -6px #0000002e;
+        -moz-box-shadow: 0 8px 6px -6px #0000002e;
+        box-shadow: 0 8px 6px -6px #0000002e;
+    }
+
+    #navbar a {
+        float: left;
+        display: block;
+        text-align: center;
+        padding: 7px;
+        text-decoration: none;
+        font-size: 15px;
+        line-height: 40px;
+        font-weight: 600;
+    }
+
+    #navbar a:hover {
+        background-color: #2f4e4f;
+        color: #fff!important;
+    }
+
+    #navbar img {
+        padding: 7px;
+    }
+
+    #form_search_mobile{
+        display: none!important;
+    }
 }

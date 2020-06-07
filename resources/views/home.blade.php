@@ -3,7 +3,7 @@
 @section('breadcrumb')
     <div class="row mb-1">
         <div class="col-md-3">
-            <div class="card mb-4" style="width: 100%;">
+            <div class="card mb-2" style="width: 100%;">
                 <div class="card-header" style="font-weight: 600;color:#2f4e4f;">
                     CATEGORIES
                 </div>
@@ -20,7 +20,7 @@
                 </ul>
             </div>
         </div>
-        <div class="col-md-9">
+        <div class="col-md-9 mb-3">
             <img src="{{url('/images/slider/home.png')}}" width="100%">
         </div>
     </div>
