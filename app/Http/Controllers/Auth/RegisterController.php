@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use App\User;
 use Illuminate\Foundation\Auth\RegistersUsers;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use View;
@@ -74,5 +75,17 @@ class RegisterController extends Controller
 
     public function after_registration(){
         return View::make('registration_success');
+    }
+
+    public function change_password(Request $request){
+        $validation = Validator::make($request->all(), [
+            'old_password' => 'required',
+            'password_confirmation' => 'required',
+            'password' => ['required', 'string', 'min:8', 'confirmed'],
+        ]);
+
+        if ($validation->fails()) {
+            return json_encode(['status'=> 'false', 'message'=> $validation->messages()]);
+        }
     }
 }

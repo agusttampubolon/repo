@@ -53,6 +53,7 @@
     </style>
 </head>
 <body>
+<div id="main">
     <div style="position:relative;height: 34px;width: 100%;display: block;background-color: darkslategrey;padding:2px;color:#fafafa;line-height: 26px;text-indent: 15px;">
         <div class="container p-0">
             <div class="row">
@@ -218,12 +219,15 @@
                             <li class="list-group-item"><a class="text-dark align-middle" href="{{ url('/admin/archive/add') }}"><i data-feather="plus" class="mr-2"></i>Add Archive</a></li>
                             <li class="list-group-item"><a class="text-dark align-middle" href="{{ url('/admin/others/add') }}"><i data-feather="plus" class="mr-2"></i>Add Other</a></li>
                             @elseif(Auth::user()->role == "student")
+                                <li class="list-group-item"><a class="text-dark align-middle" href="{{ url('/my-profile') }}"><i data-feather="user" class="mr-2"></i>My Profile</a></li>
+                                <li class="list-group-item"><a class="text-dark align-middle" href="{{ url('/change-password') }}"><i data-feather="key" class="mr-2"></i>Change Password</a></li>
                                 <li class="list-group-item"><a class="text-dark align-middle" href="{{ url('/student-paper/add') }}"><i data-feather="plus" class="mr-2"></i>Add Student Paper</a></li>
-                                <li class="list-group-item"><a class="text-dark align-middle" href="{{ url('/change-password') }}"><i data-feather="key" class="mr-2"></i>Change Password</a></li>
                             @elseif(Auth::user()->role == "lecture")
-                                <li class="list-group-item"><a class="text-dark align-middle" href="{{ url('/article/add') }}"><i data-feather="plus" class="mr-2"></i>Add Article</a></li>
+                                <li class="list-group-item"><a class="text-dark align-middle" href="{{ url('/my-profile') }}"><i data-feather="user" class="mr-2"></i>My Profile</a></li>
                                 <li class="list-group-item"><a class="text-dark align-middle" href="{{ url('/change-password') }}"><i data-feather="key" class="mr-2"></i>Change Password</a></li>
+                                <li class="list-group-item"><a class="text-dark align-middle" href="{{ url('/article/add') }}"><i data-feather="plus" class="mr-2"></i>Add Article</a></li>
                             @else
+                                <li class="list-group-item"><a class="text-dark align-middle" href="{{ url('/my-profile') }}"><i data-feather="user" class="mr-2"></i>My Profile</a></li>
                                 <li class="list-group-item"><a class="text-dark align-middle" href="{{ url('/change-password') }}"><i data-feather="key" class="mr-2"></i>Change Password</a></li>
                             @endif
                         @endif
@@ -264,7 +268,7 @@
             </div>
         @endif
     </div>
-</div>
+    </div>
 
 <footer class="page-footer font-small bg-dark pt-5 mt-2">
     <div class="container">
@@ -318,6 +322,46 @@
         </div>
     </div>
 </footer>
+</div>
+<div id="mySidebar" class="sidebar">
+    <a href="javascript:void(0)" class="closebtn text-light" onclick="closeNav()">&times;</a>
+
+    <div class="card" style="width: 18rem;margin: auto;">
+        <ul class="list-group list-group-flush">
+            @if(!Auth::check())
+                <li class="list-group-item"><a  href="{{ route('login') }}">{{ __('Login') }}</a></li>
+                <li class="list-group-item"><a href="{{ route('register') }}">Register</a></li>
+            @endif
+        </ul>
+    </div>
+
+    <div class="card mt-2" style="width: 18rem;margin: auto;">
+        <div class="card-header bg-dark text-light">
+            Categories
+        </div>
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item"><a href="{{url('/article')}}" class="text-dark">Article</a></li>
+            <li class="list-group-item"><a href="{{url('/guide-book')}}" class="text-dark">Guide Book</a></li>
+            <li class="list-group-item"><a href="{{url('/book')}}" class="text-dark">Book</a></li>
+            <li class="list-group-item"><a href="{{url('/monograph')}}" class="text-dark">Monograph</a></li>
+            <li class="list-group-item"><a href="{{url('/student-paper')}}" class="text-dark">Student Paper</a></li>
+            <li class="list-group-item"><a href="{{url('/archive')}}" class="text-dark">Archive</a></li>
+            <li class="list-group-item"><a href="{{url('/others')}}" class="text-dark">Others</a></li>
+        </ul>
+    </div>
+    <div class="card mt-2 mb-2" style="width: 18rem;margin: auto;">
+        <div class="card-header bg-dark text-light">
+            Data Filter
+        </div>
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item"><a href="{{url('/search/issued-date/')}}" class="text-dark"><i data-feather="calendar" class="mr-2 align-middle"></i>By Issued Date</a></li>
+            <li class="list-group-item"><a href="{{url('/search/title/')}}" class="text-dark"><i data-feather="align-center" class="mr-2 align-middle"></i>Titles</a></li>
+            <li class="list-group-item"><a href="{{url('/search/authors/')}}" class="text-dark"><i data-feather="user" class="mr-2 align-middle"></i>Authors</a></li>
+            <li class="list-group-item"><a href="{{url('/search/subjects/')}}" class="text-dark"><i data-feather="file-text" class="mr-2 align-middle"></i>Subjects</a></li>
+            <li class="list-group-item"><a href="{{url('/search/submitted-date/')}}" class="text-dark"><i data-feather="calendar" class="mr-2 align-middle"></i>Submitted Date</a></li>
+        </ul>
+    </div>
+</div>
 
 <script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
@@ -325,6 +369,22 @@
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
 @yield('js')
 <script>
+    function openNav() {
+        document.getElementById("mySidebar").style.width = "300px";
+        document.getElementById("main").style.marginLeft = "300px";
+        $('html').css("overflow","hidden");
+        $('body').css("overflow","hidden");
+
+    }
+
+    /* Set the width of the sidebar to 0 and the left margin of the page content to 0 */
+    function closeNav() {
+        document.getElementById("mySidebar").style.width = "0";
+        document.getElementById("main").style.marginLeft = "0";
+        $('html').css("overflow","auto");
+        $('body').css("overflow","auto");
+    }
+
     feather.replace({ class: 'foo bar', 'stroke-width': 0.5 })
 
     $(document).ready(function() {
@@ -345,6 +405,12 @@
                 e.preventDefault(e);
                 return false;
             }
+        });
+
+        // document.getElementById("myNav").style.width = "100%";
+
+        $(".navbar-toggler").click(function (e) {
+            openNav();
         })
     });
 

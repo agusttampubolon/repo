@@ -31,6 +31,14 @@ Route::get('/faq', function () {
     return view('faq');
 });
 
+Route::get('/change-password', function () {
+    return view('user.change_password');
+})->middleware('auth');
+
+Route::get('/my-profile', function () {
+    return view('user.my_profile');
+})->middleware('auth');
+
 Auth::routes();
 
 Route::get('/', 'HomeController@index')->name('home');
@@ -159,3 +167,5 @@ Route::get('/search/authors', 'FilterController@filter_by_author')->name('author
 Route::get('/search/subjects', 'FilterController@filter_by_subject')->name('subject');
 Route::get('/search/type', 'FilterController@filter_by_type')->name('types');
 Route::get('/search/submitted-date', 'FilterController@filter_by_submitted_date')->name('submitted-date');
+
+Route::post('/change-password/submit', 'UsersController@change_password')->name('change_password')->middleware('auth');
