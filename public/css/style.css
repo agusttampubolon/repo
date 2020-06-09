@@ -119,6 +119,9 @@ a {
     #navbar{
         display: none;
     }
+    #navbar_desktop{
+        display: none;
+    }
 }
 
 .btn-primary {
