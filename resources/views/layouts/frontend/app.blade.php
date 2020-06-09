@@ -84,6 +84,7 @@
             </div>
         </div>
     </div>
+
     <nav class="navbar navbar-expand-lg navbar-light bg-light pt-4 pb-4">
         <div class="container">
             <a class="navbar-brand" href="{{url('/')}}">
@@ -104,6 +105,7 @@
             </form>
         </div>
     </nav>
+
     <div class="row" id="form_search_mobile">
         <div class="col-md-12">
             <form class="form-inline my-2 my-lg-0" action="{{url('/all?')}}" method="GET">
@@ -118,7 +120,8 @@
             </form>
         </div>
     </div>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light" style="background-color: #f1efef!important;">
+
+    <nav id="navbar_desktop" class="navbar navbar-expand-lg navbar-light bg-light" style="background-color: #f1efef!important;">
         <div class="container">
             <div class="collapse navbar-collapse" id="mobile_menu">
                 <ul class="navbar-nav mr-auto">

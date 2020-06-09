@@ -4,7 +4,7 @@
     <div class="row mb-1">
         <div class="col-md-3">
             <div class="card mb-2" style="width: 100%;">
-                <div class="card-header" style="font-weight: 600;color:#2f4e4f;">
+                <div class="card-header bg-dark text-light" style="font-weight: 500;">
                     CATEGORIES
                 </div>
                 <ul class="list-group mt-2">
