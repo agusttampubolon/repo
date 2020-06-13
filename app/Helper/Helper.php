@@ -19,7 +19,7 @@ class Helper
     protected static $CACHE_KEY_AUTHOR_COUNT = "__count_author";
     protected static $CACHE_KEY_TOP_CATEGORY = "__top_category";
     protected static $CACHE_DOWNLOAD_COUNT = "__download_count";
-    protected static $SLUG = ["paper"=>"student-paper","article"=>"article","book"=>"book","monograph"=>"monograph","guide book"=>"guide-book", "others"=> "others"];
+    protected static $SLUG = ["paper"=>"student-paper","article"=>"article","book"=>"book","monograph"=>"monograph","guide book"=>"guide-book", "others"=> "others","archive"=>"archive"];
 
     public static function get_user_pending_count(){
         $count = Cache::get(self::$CACHE_KEY_USER_PENDING);
