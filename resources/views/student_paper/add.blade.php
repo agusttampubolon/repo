@@ -22,5 +22,8 @@
 @section('js')
     <script src="//cdn.tinymce.com/4/tinymce.min.js"></script>
     <script src="{{url('/js/tinymce_init.js')}}"></script>
-    <script src="{{url('/js/article/add.js')}}"></script>
+    <script src="{{url('/js/add.js')}}"></script>
+    <script type="text/javascript">
+        url = '/student-paper/submit';
+    </script>
 @endsection

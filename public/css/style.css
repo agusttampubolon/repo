@@ -374,3 +374,20 @@ table tr td, .p{
     .sidebar {padding-top: 15px;}
     .sidebar a {font-size: 18px;}
 }
+
+.btn-outline-success:hover{
+    color: #ffffff !important;
+}
+
+body{
+    padding-left: 2px!important;
+    padding-right: 2px!important;
+}
+
+.list-group-item:hover{
+    background-color: #fff!important;
+}
+
+.revision{
+    border:1px solid #ff0000!important;
+}

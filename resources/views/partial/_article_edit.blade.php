@@ -40,6 +40,12 @@
                 </div>
             </div>
             <hr/>
+            <div class="row mt-2">
+                <div class="col-12">
+                    <small class="block mb-0 text-muted">Total Download</small><br/>
+                    <small class="pl-0 pt-0 mt-0 text-muted text-sm-left">{{Helper::get_download_count($data->id)}}</small>
+                </div>
+            </div>
         </div>
         <div class="col-md-9">
             <div class="row mb-3">
@@ -122,7 +128,7 @@
                         <label class="d-block">File</label>
                         <div class="custom-control-inline">
                             <a class="form-control form-control-plaintext" target="_blank" href="{{url('/assets/upload/article'.'/'.$data->code.'/'.$data->upload_file)}}"><i class="fa fa-download"></i> {{$data->upload_file}}</a>
-                            <button type="button" onclick="change_file()" class="btn btn-outline-success sb-btn-xs">Change</button>
+                            <button type="button" onclick="change_file()" class="btn btn-outline-success sb-btn-xs"><i class="fa fa-edit"></i></button>
                         </div>
                     </div>
                     <div class="hide" id="div_new_file">
@@ -156,6 +162,7 @@
                     <button id="btn_update" type="submit" class="btn btn-success">Update</button>
                     @if($data->row_status == "pending" && Auth::user()->role == "administrator")
                         <button id="btn_approve" type="button" class="btn btn-outline-success">Approve</button>
+                        <button id="btn_revision" type="button" class="btn btn-success">Revise</button>
                         <button id="btn_reject" type="button" class="btn btn-outline-success">Reject</button>
                     @endif
                     <button id="btn_delete" type="button" class="btn btn-outline-dark">Delete</button>
@@ -164,3 +171,5 @@
         </div>
     </div>
 </form>
+
+@include("partial._revision")

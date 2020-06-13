@@ -49,10 +49,9 @@ class HomeController extends Controller
 
     public function admin()
     {
-        if(Auth::user()->role == 'administrator'){
-            return view('admin.index');
-        }
-        return view('home');
+        Helper::is_admin();
+
+        return view('admin.index');
     }
 
     public function new_user(Request $request){

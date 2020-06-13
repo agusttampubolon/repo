@@ -16,9 +16,9 @@ use Illuminate\Support\Facades\Route;
 //Route::get('/', function () {
 //    return view('welcome');
 //});
-Route::get('/admin', function () {
-    return view('admin.index');
-})->middleware('auth');
+//Route::get('/admin', function () {
+//    return view('admin.index');
+//})->middleware('auth');
 Route::get('/about', function () {
     return view('about');
 });
@@ -35,11 +35,9 @@ Route::get('/change-password', function () {
     return view('user.change_password');
 })->middleware('auth');
 
-Route::get('/my-profile', function () {
-    return view('user.my_profile');
-})->middleware('auth');
-
 Auth::routes();
+
+Route::get('/my-profile', 'UsersController@my_profile')->name('my_profile')->middleware('auth');
 
 Route::get('/', 'HomeController@index')->name('home');
 Route::get('/home', 'HomeController@index')->name('home');
@@ -49,8 +47,11 @@ Route::get('/registration/success', 'Auth\RegisterController@after_registration'
 
 Route::get('/article', 'ArticleController@index')->name('article');
 Route::get('/article/add', 'ArticleController@add')->name('add')->middleware('auth');
+Route::get('/article/edit/{id}', 'ArticleController@edit')->name('add')->middleware('auth');
 Route::post('/article/submit', 'ArticleController@submit')->name('submit');
 Route::post('/article/update', 'ArticleController@update')->name('update');
+Route::post('/article/submit-revision', 'ArticleController@submit_revise')->name('submit_revise')->middleware('auth');
+
 
 Route::get('/guide-book', 'GuideBookController@index')->name('guide-book');
 Route::get('/guide-book/add', 'GuideBookController@add')->name('add')->middleware('auth');
@@ -64,6 +65,9 @@ Route::get('/monograph/add', 'MonographController@add')->name('add')->middleware
 Route::get('/student-paper', 'StudentPaperController@index')->name('index');
 Route::get('/student-paper/add', 'StudentPaperController@add')->name('add')->middleware('auth');
 Route::get('/student-paper/detail', 'StudentPaperController@detail')->name('detail');
+Route::get('/student-paper/edit/{id}', 'StudentPaperController@edit')->name('add')->middleware('auth');
+Route::post('/student-paper/submit-revision', 'StudentPaperController@submit_revise')->name('submit_revise')->middleware('auth');
+
 
 Route::get('/archive', 'ArchiveController@index')->name('archive');
 Route::get('/archive/add', 'ArchiveController@add')->name('add')->middleware('auth');
@@ -154,6 +158,7 @@ Route::post('/admin/others/update', 'OthersController@update')->name('update')->
 Route::post('/admin/approve', 'AdminController@approve')->name('approve')->middleware('auth');
 Route::post('/admin/reject', 'AdminController@reject')->name('reject')->middleware('auth');
 Route::post('/admin/delete', 'AdminController@delete')->name('delete')->middleware('auth');
+Route::post('/admin/revision', 'AdminController@revision')->name('revision')->middleware('auth');
 
 Route::get('/all', 'FilterController@all')->name('all');
 Route::get('/search-author/{author?}', 'FilterController@author')->name('author');
@@ -169,3 +174,6 @@ Route::get('/search/type', 'FilterController@filter_by_type')->name('types');
 Route::get('/search/submitted-date', 'FilterController@filter_by_submitted_date')->name('submitted-date');
 
 Route::post('/change-password/submit', 'UsersController@change_password')->name('change_password')->middleware('auth');
+Route::post('/change-profile/submit', 'UsersController@change_profile')->name('change_profile')->middleware('auth');
+
+Route::get('/download/{type}/{code}/{filetype}/{file_name}','CommunitiesController@download')->name('download');

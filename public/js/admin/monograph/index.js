@@ -120,7 +120,7 @@ function init_data_table(status) {
                     className: "text-center",
                     render: function(data, type, full, meta) {
                         return '<a href="/admin/monograph/edit/'+data+'" class="btn btn-datatable btn-icon btn-transparent-dark btn-sm p-0 mr-2"><i class="fas fa-edit"></i></a>' +
-                            '<a target="_blank" href="admin/monograph/edit/'+data+'" class="btn btn-datatable btn-icon btn-transparent-dark btn-sm p-0"><i class="fas fa-eye"></i></a>';
+                            '<a target="_blank" href="/detail/'+full.code+'" class="btn btn-datatable btn-icon btn-transparent-dark btn-sm p-0"><i class="fas fa-eye"></i></a>';
                     },
                 }
             ],

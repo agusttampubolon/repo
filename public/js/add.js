@@ -22,20 +22,17 @@ $(document).ready(function() {
 
     $('#form_submit').on('submit', function(event) {
         event.preventDefault();
-        swal({
+        Swal.fire({
             title: "Confirmation",
             text: "Are you sure submit the data?",
-            buttons: true,
-            dangerMode: true,
+            showCancelButton: true,
+            confirmButtonColor: '#2f4e4f',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, change now!'
         })
-        .then((value) => {
-            if (value) {
-                swal({
-                    text: "please wait ...",
-                    button: false,
-                    closeOnClickOutside: false,
-                    closeOnEsc: false,
-                });
+        .then((result) => {
+            if (result.value) {
+                loading();
                 var btn = $("#btn_save");
 
                 var token = $('meta[name="csrf-token"]').attr('content');
@@ -55,13 +52,17 @@ $(document).ready(function() {
                         var text = '';
                         var res = JSON.parse(response);
                         if(res.status === 'true') {
-                            swal("Success! The data has been submitted!", {
+                            Swal.fire({
+                                text: "Success! The data has been submitted!",
                                 icon: "success",
                             });
                             location.reload();
                         }else{
-                            swal("Error! Something went wrong!", {
-                                icon: "error",
+                            Swal.fire({
+                                "title": "",
+                                "text": "Error! Something went wrong!",
+                                "type": "error",
+                                confirmButtonColor: '#2f4e4f',
                             });
                             btn.removeAttr("disabled");
                         }
@@ -81,4 +82,14 @@ function previewImage() {
     oFReader.onload = function(oFREvent) {
         document.getElementById("image-preview").src = oFREvent.target.result;
     };
+}
+
+function loading() {
+    Swal.fire({
+        text: "please wait ...",
+        showCancelButton: false,
+        showConfirmButton: false,
+        allowOutsideClick: false,
+        closeOnEsc: false,
+    });
 }

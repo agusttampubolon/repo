@@ -38,6 +38,13 @@
                                         <small class="pl-0 pt-0 mt-0 text-muted text-sm-left">{{$data->updated_by ? $data->updated_by : "-"}}, {{$data->updated_at}}</small>
                                     </div>
                                 </div>
+                                <hr/>
+                                <div class="row mt-2">
+                                    <div class="col-12">
+                                        <small class="block mb-0 text-muted">Total Download</small><br/>
+                                        <small class="pl-0 pt-0 mt-0 text-muted text-sm-left">{{Helper::get_download_count($data->id)}}</small>
+                                    </div>
+                                </div>
                             </div>
                             <div class="col-md-9">
                                 @include("partial._others_edit")

@@ -50,7 +50,7 @@
                 <label class="d-block">File</label>
                 <div class="custom-control-inline">
                     <a class="form-control form-control-plaintext" target="_blank" href="{{url('/assets/upload/guide-book'.'/'.$data->code.'/'.$data->upload_file)}}"><i class="fa fa-download"></i> {{$data->upload_file}}</a>
-                    <button type="button" onclick="change_file()" class="btn btn-outline-success sb-btn-xs">Change</button>
+                    <button type="button" onclick="change_file()" class="btn btn-outline-success sb-btn-xs"><i data-feather="edit"></i></button>
                 </div>
             </div>
             <div class="hide" id="div_new_file">

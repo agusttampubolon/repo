@@ -126,6 +126,20 @@ class ArticleController extends Controller
         return View::make('admin.article.edit')->with($pageVars);
     }
 
+    public function edit($id){
+        $data = Communities::where('id','=',$id)->first();
+        $pageVars = [
+            'data'=>$data,
+            'icon'=>'layout',
+            'title'=> 'Student Paper',
+            'subtitle' => 'Edit Student Paper',
+            'form_name' => 'Student Paper Form',
+            'years'=>Helper::get_year()
+        ];
+
+        return View::make('article.edit')->with($pageVars);
+    }
+
     public function add(){
         $years = [];
         for($i=0;$i<=20;$i++){
@@ -171,6 +185,7 @@ class ArticleController extends Controller
             'author_3' => $data['author_3'],
             'author_4' => $data['author_4'],
             'author_5' => $data['author_5'],
+            'user_id' => Auth::user()->id,
             'publisher' => $data['publisher'],
             'publication_place' => $data['publication_place'],
             'issued_date' => $data['issued_date'],
@@ -301,6 +316,65 @@ class ArticleController extends Controller
         }
 
         return json_encode(['status'=> 'true', 'message'=>""]);
+    }
+
+    public function submit_revise(Request $request){
+        $data = $request->all();
+        $paper = Communities::where('id','=',$data['id'])->first();
+        $arr = explode(',',$paper->data_revision);
+        $arr_validation = [];
+        foreach ($arr as $item){
+            $arr_validation[$item] = "required";
+        }
+        $validation = Validator::make($data,$arr_validation);
+
+        if ($validation->fails()) {
+            return json_encode(['status'=> 'false', 'message'=> $validation->messages()]);
+        }
+
+        $fileName = uniqid();
+
+        if($request->cover_image){
+            $data['cover_image'] = $fileName.'_cover_image.'.$request->cover_image->getClientOriginalExtension();
+            $validation = Validator::make($request->all(), [
+                'cover_image' => 'required|mimes:jpeg,jpg,png,pdf|max:2048',
+            ]);
+
+            if ($validation->fails()) {
+                return json_encode(['status'=> 'false', 'message'=> $validation->messages()]);
+            }
+
+            $cover_image = $request->file('cover_image');
+            $cover_image->move(public_path('assets/upload/student-paper/'.$paper->code), $data['cover_image']);
+        }
+
+        if($request->upload_file){
+            $data['upload_file'] = $fileName.'_article.'.$request->upload_file->getClientOriginalExtension();
+            $validation = Validator::make($request->all(), [
+                'upload_file' => 'required|mimes:pdf|max:2048',
+            ]);
+
+            if ($validation->fails()) {
+                return json_encode(['status'=> 'false', 'message'=> $validation->messages()]);
+            }
+
+            $upload_file= $request->file('upload_file');
+            $upload_file->move(public_path('assets/upload/article/'.$paper->code), $data['upload_file']);
+        }
+
+        $data['updated_at'] = date('Y-m-d h:m:s');
+        $data['updated_by'] = Auth::user()->nama;
+        $data['is_revised'] = 0;
+
+        unset($data['id']);
+        $update = Communities::where('id','=',$request->id)->update($data);
+
+        if($update){
+            return json_encode(['status'=> 'true', 'message'=>""]);
+        }
+
+        return json_encode(['status'=> 'false', 'message'=>""]);
+
     }
 
     public function paging_all(Request $request){

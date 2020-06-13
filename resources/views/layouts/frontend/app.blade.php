@@ -214,6 +214,7 @@
                             <li class="list-group-item"><a class="text-dark" href="{{ route('register') }}"><i data-feather="user-plus" class="mr-2 align-middle"></i>Register</a></li>
                         @else
                             @if(Auth::user()->role == "administrator")
+                                <li class="list-group-item"><a class="text-dark align-middle" href="{{ url('/admin') }}"><i data-feather="activity" class="mr-2"></i>Dashboard</a></li>
                             <li class="list-group-item"><a class="text-dark align-middle" href="{{ url('/admin/article/add') }}"><i data-feather="plus" class="mr-2"></i>Add Article</a></li>
                             <li class="list-group-item"><a class="text-dark align-middle" href="{{ url('/admin/guide-book/add') }}"><i data-feather="plus" class="mr-2"></i>Add Guide Book</a></li>
                             <li class="list-group-item"><a class="text-dark align-middle" href="{{ url('/admin/book/add') }}"><i data-feather="plus" class="mr-2"></i>Add Book</a></li>

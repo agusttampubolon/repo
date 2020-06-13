@@ -36,8 +36,8 @@
                             <div class="col-md-6">
                                 <select id="role" name="role" class="form-control">
                                     <option value="guest">UMUM</option>
-                                    <option value="dosen">DOSEN</option>
-                                    <option value="mahasiswa">MAHASISWA</option>
+                                    <option value="lecture">DOSEN</option>
+                                    <option value="student">MAHASISWA</option>
                                 </select>
                                 @error('name')
                                 <span class="invalid-feedback" role="alert">
@@ -110,10 +110,12 @@
                     $("#group_profession").removeClass("hide");
                     $("#group_profession").addClass("show");
                     $("#lbl_identity_number").html("Identity Number (KTP)");
+                    $("#profession").attr("required");
                 }else{
                     $("#group_profession").removeClass("show");
                     $("#group_profession").addClass("hide");
                     $("#lbl_identity_number").html("NIM / NIP");
+                    $("#profession").removeAttr("required");
                 }
             });
             $('#form_submit_user').on('submit', function(event) {
@@ -130,8 +132,9 @@
                         if (value) {
                             Swal.fire({
                                 text: "please wait ...",
-                                button: false,
-                                closeOnClickOutside: false,
+                                showCancelButton: false,
+                                showConfirmButton: false,
+                                allowOutsideClick: false,
                                 closeOnEsc: false,
                             });
                             var btn = $("#btn_submit");

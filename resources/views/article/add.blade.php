@@ -12,7 +12,7 @@
 
 @section('content')
     <h1>Add Article</h1><hr/>
-    <div class="row">
+    <div class="row mb-4">
         <div class="col-md-12">
             @include("partial._article")
         </div>

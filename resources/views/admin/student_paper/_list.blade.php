@@ -10,7 +10,7 @@
                         <th>No</th>
                         <th>Title</th>
                         <th>Author</th>
-                        <th>Majors</th>
+                        <th>Major</th>
                         <th>Publisher</th>
                         <th>Place of Publication</th>
                         <th>Issued Date</th>
@@ -33,7 +33,7 @@
                         <th>No</th>
                         <th>Title</th>
                         <th>Author</th>
-                        <th>Majors</th>
+                        <th>Major</th>
                         <th>Publisher</th>
                         <th>Place of Publication</th>
                         <th>Issued Date</th>

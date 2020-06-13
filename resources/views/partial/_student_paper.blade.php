@@ -32,6 +32,18 @@
                     </div>
                 </div>
             </div>
+            <div class="form-group">
+                <label for="title">Major*</label>
+                <div class="row">
+                    <div class="col-7">
+                        <select class="form-control" name="major" required>
+                            <option value="Penyuluhan Pertanian Berkelanjutan">Penyuluhan Pertanian Berkelanjutan</option>
+                            <option value="Penyuluhan Perkebunan Presisi">Penyuluhan Perkebunan Presisi</option>
+                            <option value="Teknologi Produksi Tanaman Perkebunan">Teknologi Produksi Tanaman Perkebunan</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
             <div class="row mb-3">
                 <div class="col-md-12">
                     <label for="title">Abstract*</label>
@@ -60,6 +72,16 @@
                         @endforeach
                     </select>
                     <div class="invalid-feedback">Please fill out this field.</div>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-6">
+                    <label for="prestasi">Cover (PDF) *</label>
+                    <div class="custom-file">
+                        <input type="file" name="cover_pdf" class="custom-file-input" id="customFile" required>
+                        <label class="custom-file-label text-muted" for="customFile">Choose file</label>
+                        <div class="invalid-feedback">Please fill out this field.</div>
+                    </div>
                 </div>
             </div>
             <div class="row mb-3">
@@ -105,6 +127,53 @@
                         <input type="file" name="chapter_5" class="custom-file-input" id="customFile" required>
                         <label class="custom-file-label text-muted" for="customFile">Choose file</label>
                         <div class="invalid-feedback">Please fill out this field.</div>
+                    </div>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-6">
+                    <label for="prestasi">Reference *</label>
+                    <div class="custom-file">
+                        <input type="file" name="reference" class="custom-file-input" id="customFile" required>
+                        <label class="custom-file-label text-muted" for="customFile">Choose file</label>
+                        <div class="invalid-feedback">Please fill out this field.</div>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <label for="prestasi">Appendix *</label>
+                    <div class="custom-file">
+                        <input type="file" name="appendix" class="custom-file-input" id="customFile" required>
+                        <label class="custom-file-label text-muted" for="customFile">Choose file</label>
+                        <div class="invalid-feedback">Please fill out this field.</div>
+                    </div>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-12">
+                    <label for="prestasi">Please check bellow if you want to lock the files </label>
+                </div>
+                <div class="col-3">
+                    <div class="custom-checkbox">
+                        <input type="checkbox" name="lock_chapter_3" value="1">
+                        <label class="text-muted">Chapter 3</label>
+                    </div>
+                    <div class="custom-checkbox">
+                        <input type="checkbox" name="lock_chapter_4" value="1">
+                        <label class="text-muted">Chapter 4</label>
+                    </div>
+                    <div class="custom-checkbox">
+                        <input type="checkbox" name="lock_chapter_5" value="1">
+                        <label class="text-muted">Chapter 5</label>
+                    </div>
+                </div>
+                <div class="col-3">
+                    <div class="custom-checkbox">
+                        <input type="checkbox" name="lock_reference" value="1">
+                        <label class="text-muted">Reference</label>
+                    </div>
+                    <div class="custom-checkbox">
+                        <input type="checkbox" name="lock_appendix" value="1">
+                        <label class="text-muted">Appendix</label>
                     </div>
                 </div>
             </div>

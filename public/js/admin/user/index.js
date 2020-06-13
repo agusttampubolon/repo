@@ -1,7 +1,7 @@
 $(document).ready(function() {
     $("#btn_update_user").click(function (e) {
         e.preventDefault();
-        swal({
+        Swal.fire({
             title: "Confirmation",
             text: "Are you sure update the status?",
             buttons: true,
@@ -9,12 +9,7 @@ $(document).ready(function() {
         })
         .then((value) => {
             if (value) {
-                swal({
-                    text: "please wait ...",
-                    button: false,
-                    closeOnClickOutside: false,
-                    closeOnEsc: false,
-                });
+                loading();
 
                 var btn = $(this);
 
@@ -33,13 +28,17 @@ $(document).ready(function() {
                         var text = '';
                         var res = JSON.parse(response);
                         if(res.status == 'true') {
-                            swal("Success! The data has been updated!", {
+                            Swal.fire({
+                                text: "Success! The data has been submitted!",
                                 icon: "success",
                             });
                             location.reload();
                         }else{
-                            swal("Error! Something went wrong!", {
-                                icon: "error",
+                            Swal.fire({
+                                "title": "",
+                                "text": "Error! Something went wrong!",
+                                "type": "error",
+                                confirmButtonColor: '#2f4e4f',
                             });
                             btn.removeAttr("disabled");
                         }
@@ -51,7 +50,7 @@ $(document).ready(function() {
     
     $("#btn_change_password").click(function (e) {
         e.preventDefault();
-        swal({
+        Swal.fire({
             title: "Confirmation",
             text: "Are you sure update the password?",
             buttons: true,
@@ -59,12 +58,7 @@ $(document).ready(function() {
         })
         .then((value) => {
             if (value) {
-                swal({
-                    text: "please wait ...",
-                    button: false,
-                    closeOnClickOutside: false,
-                    closeOnEsc: false,
-                });
+                loading();
 
                 var btn = $(this);
 
@@ -83,13 +77,17 @@ $(document).ready(function() {
                         var text = '';
                         var res = JSON.parse(response);
                         if(res.status === 'true') {
-                            swal("Success! Password has been updated!", {
+                            Swal.fire({
+                                text: "Success! The data has been submitted!",
                                 icon: "success",
                             });
                             window.location = "/admin/user/all"
                         }else{
-                            swal(res.message, {
-                                icon: "error",
+                            Swal.fire({
+                                "title": "",
+                                "text": "Error! Something went wrong!",
+                                "type": "error",
+                                confirmButtonColor: '#2f4e4f',
                             });
                             btn.removeAttr("disabled");
                         }
@@ -253,4 +251,14 @@ function init_table_user_all(status) {
             ],
         });
     }
+}
+
+function loading() {
+    Swal.fire({
+        text: "please wait ...",
+        showCancelButton: false,
+        showConfirmButton: false,
+        allowOutsideClick: false,
+        closeOnEsc: false,
+    });
 }

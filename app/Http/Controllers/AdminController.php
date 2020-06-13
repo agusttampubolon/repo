@@ -207,7 +207,16 @@ class AdminController extends Controller
             return json_encode(['status'=> 'true', 'message'=>"Data not found"]);
         }
 
-        $communities->row_status="active";
+        $validation = Validator::make($request->all(), [
+            'notes' => 'required'
+        ]);
+
+        if ($validation->fails()) {
+            return json_encode(['status'=> 'false', 'message'=> $validation->messages()]);
+        }
+
+        $communities->row_status="rejected";
+        $communities->notes=$request->notes;
         $communities->approved_by = Auth::user()->name;
         $communities->approved_at = date('yy-m-d h:m:s');
 
@@ -215,7 +224,7 @@ class AdminController extends Controller
             return json_encode(['status'=> 'false', 'message'=>""]);
         }
 
-        if($communities->type == "rejected"){
+        if($communities->type == "article"){
             Helper::set_article_pending_count();
         }elseif($communities->type == "paper"){
             Helper::set_paper_pending_count();
@@ -240,7 +249,7 @@ class AdminController extends Controller
             return json_encode(['status'=> 'false', 'message'=>""]);
         }
 
-        if($communities->type == "deleted"){
+        if($communities->type == "article"){
             Helper::set_article_pending_count();
         }elseif($communities->type == "paper"){
             Helper::set_paper_pending_count();
@@ -249,4 +258,52 @@ class AdminController extends Controller
 
         return json_encode(['status'=> 'true', 'message'=>""]);
     }
+
+    public function revision(Request $request){
+        $data = $request->all();
+        $communities = Communities::where('id','=', $data['id'])->first();
+
+        if(!$communities){
+            return json_encode(['status'=> 'true', 'message'=>"Data not found"]);
+        }
+
+        $validation = Validator::make($request->all(), [
+            'notes' => 'required'
+        ]);
+
+        if ($validation->fails()) {
+            return json_encode(['status'=> 'false', 'message'=> $validation->messages()]);
+        }
+
+        $data_revision = '';
+        if($data['data_revision']){
+            foreach ($data['data_revision'] as $item){
+                $data_revision .= $data_revision == '' ? $item : ','.$item;
+            }
+        }
+
+        if($data_revision == ''){
+            return json_encode(['status'=> 'false', 'message'=> array(["Revision field is mandatory"])]);
+        }
+
+        $communities->row_status="revised";
+        $communities->is_revised=0;
+        $communities->notes=$request->notes;
+        $communities->data_revision=$data_revision;
+        $communities->approved_by = Auth::user()->name;
+        $communities->approved_at = date('yy-m-d h:m:s');
+
+        if(!$communities->save()){
+            return json_encode(['status'=> 'false', 'message'=>""]);
+        }
+
+        if($communities->type == "article"){
+            Helper::set_article_pending_count();
+        }elseif($communities->type == "paper"){
+            Helper::set_paper_pending_count();
+        }
+
+        return json_encode(['status'=> 'true', 'message'=>""]);
+    }
+
 }

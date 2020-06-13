@@ -45,7 +45,7 @@ function init_data_table(status) {
                 { data: 'DT_RowIndex', name: 'DT_RowIndex'},
                 { data: 'title', name: 'title' },
                 { data: 'author_1', name: 'author_1'},
-                { data: 'prodi', name: 'prodi'},
+                { data: 'major', name: 'major'},
                 { data: 'publisher', name: 'publisher'},
                 { data: 'publication_place', name: 'publication_place'},
                 { data: 'issued_date', name: 'issued_date'},
@@ -153,7 +153,7 @@ function init_data_table(status) {
                     className: "text-center",
                     render: function(data, type, full, meta) {
                         return '<a href="/admin/student-paper/edit/'+data+'" class="btn btn-datatable btn-icon btn-transparent-dark btn-sm p-0 mr-2"><i class="fas fa-edit"></i></a>' +
-                            '<a target="_blank" href="admin/student-paper/edit/'+data+'" class="btn btn-datatable btn-icon btn-transparent-dark btn-sm p-0"><i class="fas fa-eye"></i></a>';
+                            '<a target="_blank" href="/detail/'+full.code+'" class="btn btn-datatable btn-icon btn-transparent-dark btn-sm p-0"><i class="fas fa-eye"></i></a>';
                     },
                 }
             ],

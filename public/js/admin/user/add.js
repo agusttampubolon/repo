@@ -15,7 +15,7 @@ window.addEventListener('load', function() {
 $(document).ready(function() {
     $('#form_submit').on('submit', function(event) {
         event.preventDefault();
-        swal({
+        Swal.fire({
             title: "Confirmation",
             text: "Are you sure submit the data?",
             buttons: true,
@@ -23,12 +23,14 @@ $(document).ready(function() {
         })
         .then((value) => {
             if (value) {
-                swal({
+                Swal.fire({
                     text: "please wait ...",
-                    button: false,
-                    closeOnClickOutside: false,
+                    showCancelButton: false,
+                    showConfirmButton: false,
+                    allowOutsideClick: false,
                     closeOnEsc: false,
                 });
+
                 var btn = $("#btn_save");
 
                 var token = $('meta[name="csrf-token"]').attr('content');
@@ -48,16 +50,18 @@ $(document).ready(function() {
                         var text = '';
                         var res = JSON.parse(response);
                         if(res.status === 'true') {
-                            swal("Success! The data has been created!", {
+                            Swal.fire({
+                                text: "Success! The data has been submitted!",
                                 icon: "success",
                             });
+                            location.reload();
                             location.reload();
                         }else{
                             var text = '';
                             $.each(res.message, function( index, value ) {
                                 text += value[0];
                             });
-                            swal({
+                            Swal.fire({
                                 text:text,
                                 icon: "error",
                             });

@@ -43,12 +43,14 @@
                     cancelButtonColor: '#d33',
                     confirmButtonText: 'Yes, change now!'
                 })
-                    .then((value) => {
-                        if (value) {
+                    .then((result) => {
+                        if (result.value) {
                             Swal.fire({
                                 text: "please wait ...",
                                 showCancelButton: false,
-                                showConfirmButton: false
+                                showConfirmButton: false,
+                                allowOutsideClick: false,
+                                closeOnEsc: false,
                             });
                             var btn = $("#btn_submit");
 

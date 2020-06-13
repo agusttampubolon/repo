@@ -3,7 +3,9 @@
 namespace App\Helper;
 
 use App\Communities;
+use App\DownloadHistory;
 use App\User;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 
@@ -16,6 +18,8 @@ class Helper
     protected static $CACHE_KEY_SUBJECT_COUNT = "__count_subject";
     protected static $CACHE_KEY_AUTHOR_COUNT = "__count_author";
     protected static $CACHE_KEY_TOP_CATEGORY = "__top_category";
+    protected static $CACHE_DOWNLOAD_COUNT = "__download_count";
+    protected static $SLUG = ["paper"=>"student-paper","article"=>"article","book"=>"book","monograph"=>"monograph","guide book"=>"guide-book", "others"=> "others"];
 
     public static function get_user_pending_count(){
         $count = Cache::get(self::$CACHE_KEY_USER_PENDING);
@@ -146,5 +150,27 @@ class Helper
 
     public static function set_top_category(){
         Cache::forget(self::$CACHE_KEY_TOP_CATEGORY);
+    }
+
+    public static function get_download_count($id){
+        $count = Cache::get(self::$CACHE_DOWNLOAD_COUNT);
+
+        if($count == null){
+            $count = DownloadHistory::where('communities_id','=',$id)->get()->count();
+            Cache::put(self::$CACHE_DOWNLOAD_COUNT,$count == 0 ? "0" : $count,1800);
+        }
+
+        return $count;
+    }
+
+    public static function is_admin(){
+        if(Auth::user()->role != 'administrator'){
+
+            return abort(404);
+        }
+    }
+
+    public static function get_slug($type){
+        return self::$SLUG[$type];
     }
 }

@@ -13,7 +13,7 @@
     <link href="{{url('css/admin/styles.css')}}" rel="stylesheet" />
     <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.css" rel="stylesheet" crossorigin="anonymous" />
     <link href="https://cdn.datatables.net/1.10.21/css/dataTables.bootstrap4.min.css" rel="stylesheet" crossorigin="anonymous" />
-    {{--<link href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css" rel="stylesheet" crossorigin="anonymous" />--}}
+
     <link href="https://cdn.datatables.net/responsive/2.2.4/css/responsive.dataTables.min.css" />
     {{--<link href="https://cdn.datatables.net/fixedcolumns/3.3.1/css/fixedColumns.dataTables.min.css"/>--}}
     {{--<link rel="icon" type="image/x-icon" href="assets/img/favicon.png" />--}}
@@ -49,9 +49,12 @@
                     <div class="sb-dropdown-item-icon"><i data-feather="settings"></i></div>
                     Account
                 </a>
-                <a class="dropdown-item" href="javascript:void(0);">
+                <a href="{{ route('logout') }}" onclick="event.preventDefault();document.getElementById('logout-form').submit();" class="dropdown-item" href="javascript:void(0);">
                     <div class="sb-dropdown-item-icon"><i data-feather="log-out"></i></div>
                     Logout
+                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                        @csrf
+                    </form>
                 </a>
             </div>
         </li>
@@ -216,7 +219,7 @@
 <script src="https://cdn.datatables.net/1.10.21/js/dataTables.bootstrap4.min.js" crossorigin="anonymous"></script>
 <script src="https://cdn.datatables.net/responsive/2.2.4/js/dataTables.responsive.min.js"></script>
 {{--<script src="https://cdn.datatables.net/fixedcolumns/3.3.1/js/dataTables.fixedColumns.min.js"></script>--}}
-<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
 <script>
     function myAccount() {
         $("#modal_my_account").modal('show');
@@ -227,7 +230,7 @@
         $("#modal_change_password").modal("show");
     };
     function change_account() {
-        swal({
+        Swal.fire({
             title: "Confirmation",
             text: "Are you sure change the data?",
             buttons: true,
@@ -235,7 +238,7 @@
         })
             .then((value) => {
                 if (value) {
-                    swal({
+                    Swal.fire({
                         text: "please wait ...",
                         button: false,
                         closeOnClickOutside: false,
@@ -257,14 +260,15 @@
                             var text = '';
                             var res = JSON.parse(response);
                             if(res.status === 'true') {
-                                swal("Success! The data has been created!", {
+                                Swal.fire({
+                                    text:"Success! The data has been approved!",
                                     icon: "success",
                                 });
                                 location.reload();
                             }else{
-                                swal({
+                                Swal.fire({
                                     text:"Error! Something went wrong!",
-                                    icon: "error",
+                                    icon: "success",
                                 });
                                 btn.removeAttr("disabled");
                             }
