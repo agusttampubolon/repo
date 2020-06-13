@@ -18,7 +18,7 @@
                 <div class="row mt-4">
                     <div class="col-lg-4 mb-4">
                         <div class="card">
-                            <img class="card-img-top" src="{{url("/images/banner_default.jpg")}}" width="100%" alt="Card image cap">
+                            <img class="card-img-top" src="{{url('/images/'.Helper::get_slug($data->type).'.png')}}" width="100%" alt="Card image cap">
                             <ul class="list-group">
                                 <li class="list-group-item">Download
                                     <ul class="list mb-2 mt-2 list-unstyled" style="padding-inline-start: 0px;">
