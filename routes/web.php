@@ -196,5 +196,5 @@ Route::get('/clear', function() {
     Artisan::call('cache:clear');
 
     return View::make('admin.cache');
-});
+})->middleware('auth');
 
