@@ -122,7 +122,8 @@ class MonographController extends Controller
             'upload_file' => $data['upload_file'],
             'created_by' => Auth::user()->name,
             'created_at' => date('yy-m-d h:m:s'),
-            'submitted_date' => date('yy')
+            'submitted_date' => date('yy'),
+            'user_id' => Auth::user()->id,
         );
 
         if(Communities::firstOrCreate($data_insert)){
@@ -130,6 +131,7 @@ class MonographController extends Controller
             $upload_file->move(public_path('assets/upload/monograph/'.$code), $data['upload_file']);
 
             Helper::set_top_category();
+            Helper::set_author_count();
         }
 
         return json_encode(['status'=> 'true', "success"]);

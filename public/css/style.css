@@ -292,6 +292,11 @@ ul.navbar-nav a:hover{
         color: #fff!important;
     }
 
+    #navbar .active{
+        background-color: #2f4e4f;
+        color: #fff!important;
+    }
+
     #navbar img {
         padding: 7px;
     }

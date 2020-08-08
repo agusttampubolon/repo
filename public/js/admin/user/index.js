@@ -3,9 +3,11 @@ $(document).ready(function() {
         e.preventDefault();
         Swal.fire({
             title: "Confirmation",
-            text: "Are you sure update the status?",
-            buttons: true,
-            dangerMode: true,
+            text: "Are you sure submit the data?",
+            showCancelButton: true,
+            confirmButtonColor: '#2f4e4f',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, change now!'
         })
         .then((value) => {
             if (value) {
@@ -52,9 +54,11 @@ $(document).ready(function() {
         e.preventDefault();
         Swal.fire({
             title: "Confirmation",
-            text: "Are you sure update the password?",
-            buttons: true,
-            dangerMode: true,
+            text: "Are you sure submit the data?",
+            showCancelButton: true,
+            confirmButtonColor: '#2f4e4f',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, change now!'
         })
         .then((value) => {
             if (value) {

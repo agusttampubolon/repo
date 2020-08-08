@@ -92,13 +92,16 @@ Route::get('/admin/article/publish', 'ArticleController@admin_publish')->name('a
 Route::get('/admin/article/unpublish', 'ArticleController@admin_unpublish')->name('admin_unpublish')->middleware('auth');
 Route::get('/admin/article/rejected', 'ArticleController@admin_rejected')->name('admin_rejected')->middleware('auth');
 Route::get('/admin/article/pending', 'ArticleController@admin_pending')->name('admin_pending')->middleware('auth');
+Route::get('/admin/article/revision', 'ArticleController@admin_revision')->name('admin_revision')->middleware('auth');
 Route::get('/admin/article/add', 'ArticleController@admin_add')->name('admin_add')->middleware('auth');
+Route::get('/admin/article/user', 'ArticleController@user')->name('user')->middleware('auth');
 Route::get('/admin/article/edit/{id}', 'ArticleController@admin_edit')->name('admin_edit')->middleware('auth');
 Route::post('/admin/article/all/paging', 'ArticleController@paging_all')->name('all_paging')->middleware('auth');
 Route::post('/admin/article/pending/paging', 'ArticleController@paging_pending')->name('paging_pending')->middleware('auth');
 Route::post('/admin/article/rejected/paging', 'ArticleController@paging_rejected')->name('paging_rejected')->middleware('auth');
 Route::post('/admin/article/publish/paging', 'ArticleController@paging_publish')->name('paging_publish')->middleware('auth');
 Route::post('/admin/article/unpublish/paging', 'ArticleController@paging_unpublish')->name('paging_unpublish')->middleware('auth');
+Route::post('/admin/article/revision/paging', 'ArticleController@paging_revision')->name('paging_revision')->middleware('auth');
 
 Route::get('/admin/guide-book/all', 'GuideBookController@admin_index')->name('admin_index')->middleware('auth');
 Route::get('/admin/guide-book/add', 'GuideBookController@admin_add')->name('admin_add')->middleware('auth');
@@ -125,10 +128,13 @@ Route::get('/admin/student-paper/all', 'StudentPaperController@admin_index')->na
 Route::get('/admin/student-paper/rejected', 'StudentPaperController@admin_rejected')->name('admin_rejected')->middleware('auth');
 Route::get('/admin/student-paper/pending', 'StudentPaperController@admin_pending')->name('admin_pending')->middleware('auth');
 Route::get('/admin/student-paper/add', 'StudentPaperController@admin_add')->name('admin_add')->middleware('auth');
+Route::get('/admin/student-paper/user', 'StudentPaperController@user')->name('user')->middleware('auth');
+Route::get('/admin/student-paper/revision', 'StudentPaperController@admin_revision')->name('admin_revision')->middleware('auth');
 Route::get('/admin/student-paper/edit/{id}', 'StudentPaperController@admin_edit')->name('admin_edit')->middleware('auth');
 Route::post('/admin/student-paper/all/paging', 'StudentPaperController@paging_all')->name('paging_all')->middleware('auth');
 Route::post('/admin/student-paper/pending/paging', 'StudentPaperController@paging_pending')->name('paging_pending')->middleware('auth');
 Route::post('/admin/student-paper/rejected/paging', 'StudentPaperController@paging_rejected')->name('paging_rejected')->middleware('auth');
+Route::post('/admin/student-paper/revision/paging', 'StudentPaperController@paging_revision')->name('paging_revision')->middleware('auth');
 Route::post('/admin/student-paper/submit', 'StudentPaperController@submit')->name('submit')->middleware('auth');
 Route::post('/student-paper/submit', 'StudentPaperController@submit')->name('submit')->middleware('auth');
 Route::post('/student-paper/update', 'StudentPaperController@update')->name('update')->middleware('auth');
@@ -177,3 +183,18 @@ Route::post('/change-password/submit', 'UsersController@change_password')->name(
 Route::post('/change-profile/submit', 'UsersController@change_profile')->name('change_profile')->middleware('auth');
 
 Route::get('/download/{type}/{code}/{filetype}/{file_name}','CommunitiesController@download')->name('download');
+
+Route::post('/admin/student-paper/user/paging', 'AdminController@paging_user_submiited')->name('paging_user_submiited')->middleware('auth');
+Route::post('/admin/student-paper/user_detail/paging/{id}/{type}', 'AdminController@paging_user_detail')->name('paging_user_detail')->middleware('auth');
+Route::post('/admin/article/user/paging', 'AdminController@paging_user_submiited')->name('paging_user_submiited')->middleware('auth');
+Route::post('/admin/article/user_detail/paging/{id}/{type}', 'AdminController@paging_user_detail')->name('paging_user_detail')->middleware('auth');
+
+Route::get('/admin/student-paper/user/{id}', 'StudentPaperController@user_submitted_detail')->name('user_submitted_detail')->middleware('auth');
+Route::get('/admin/article/user/{id}', 'ArticleController@user_submitted_detail')->name('user_submitted_detail')->middleware('auth');
+//Route::get('/clear', 'ArticleController@user_submitted_detail')->name('user_submitted_detail')->middleware('auth');
+Route::get('/clear', function() {
+    Artisan::call('cache:clear');
+
+    return View::make('admin.cache');
+});
+

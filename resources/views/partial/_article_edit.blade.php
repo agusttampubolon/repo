@@ -20,11 +20,17 @@
                     <small class="block mb-0 text-muted">Status</small><br/>
                     <small class="pl-0 pt-0 mt-0 text-muted text-sm-left"><b>{{strtoupper($data->row_status)}}</b></small>
                 </div>
+                @if($data->row_status == "rejected")
+                    <div class="col-12 mt-2">
+                        <small class="block mb-0 text-muted">Rejection Notes</small><br/>
+                        <small class="pl-0 pt-0 mt-0 text-muted text-sm-left">{{$data->notes}}</small>
+                    </div>
+                @endif
             </div>
             <div class="row mt-3">
                 <div class="col-12">
                     <small class="block mb-0 text-muted">Created By</small><br/>
-                    <small class="pl-0 pt-0 mt-0 text-muted text-sm-left">{{$data->created_by}}, {{$data->created_at}}</small>
+                    <small class="pl-0 pt-0 mt-0 text-muted text-sm-left"><a href="{{url('/admin/article/user?filter='.$data->user_id)}}"> {{$data->created_by}}</a>, {{$data->created_at}}</small>
                 </div>
             </div>
             <div class="row mt-2">
@@ -48,6 +54,16 @@
             </div>
         </div>
         <div class="col-md-9">
+            @if($data->row_status == "revised")
+                <div class="row mb-3">
+                    <div class="col-12 mt-2">
+                        <div class="alert alert-success" role="alert">
+                            <label class="block mb-0">Revision Notes</label>
+                            <div class="pl-0 pt-0 mt-0 text-muted text-sm-left">{{$data->notes}}</div>
+                        </div>
+                    </div>
+                </div>
+            @endif
             <div class="row mb-3">
                 <div class="col-md-12">
                     <label for="title">Title*</label>
@@ -160,12 +176,12 @@
             <div class="row">
                 <div class="col-12 text-left">
                     <button id="btn_update" type="submit" class="btn btn-success">Update</button>
-                    @if($data->row_status == "pending" && Auth::user()->role == "administrator")
-                        <button id="btn_approve" type="button" class="btn btn-outline-success">Approve</button>
+                    @if($data->row_status == "pending" && Auth::user()->role == "administrator" || ($data->row_status == "revised" && $data->is_revised == 1))
+                        <button id="btn_approve" type="button" class="btn btn-success">Approve</button>
                         <button id="btn_revision" type="button" class="btn btn-success">Revise</button>
                         <button id="btn_reject" type="button" class="btn btn-outline-success">Reject</button>
                     @endif
-                    <button id="btn_delete" type="button" class="btn btn-outline-dark">Delete</button>
+                    <button id="btn_delete" type="button" class="btn btn-outline-success">Delete</button>
                 </div>
             </div>
         </div>

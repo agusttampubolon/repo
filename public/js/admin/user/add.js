@@ -17,12 +17,14 @@ $(document).ready(function() {
         event.preventDefault();
         Swal.fire({
             title: "Confirmation",
-            text: "Are you sure submit the data?",
-            buttons: true,
-            dangerMode: true,
+            text: "Are you sure add the user?",
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, save it!'
         })
-        .then((value) => {
-            if (value) {
+        .then((result) => {
+            if (result.value) {
                 Swal.fire({
                     text: "please wait ...",
                     showCancelButton: false,

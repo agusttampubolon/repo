@@ -145,7 +145,8 @@ class ArchiveController extends Controller
             'upload_file' => $data['upload_file'],
             'created_by' => Auth::user()->name,
             'created_at' => date('yy-m-d h:m:s'),
-            'submitted_date' => date('yy')
+            'submitted_date' => date('yy'),
+            'user_id' => Auth::user()->id,
         );
 
         if(Communities::firstOrCreate($data_insert)){

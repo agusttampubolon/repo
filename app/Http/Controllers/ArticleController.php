@@ -100,6 +100,17 @@ class ArticleController extends Controller
         return View::make('admin.article.pending')->with($pageVars);
     }
 
+    public function admin_revision(){
+        $pageVars = [
+            'icon'=>'layout',
+            'title'=> 'Article - Revised',
+            'subtitle' => 'List Of Article',
+            'form_name' => 'Table of Article'
+        ];
+
+        return View::make('admin.article.revision')->with($pageVars);
+    }
+
     public function admin_add(){
         $pageVars = [
             'icon'=>'layout',
@@ -110,6 +121,31 @@ class ArticleController extends Controller
         ];
 
         return View::make('admin.article.new')->with($pageVars);
+    }
+
+    public function user(Request $request){
+        $pageVars = [
+            'filter'=>$request->filter,
+            'icon'=>'layout',
+            'title'=> 'Article',
+            'subtitle' => '',
+            'form_name' => 'List of Users',
+        ];
+
+        return View::make('admin.article.user')->with($pageVars);
+    }
+
+    public function user_submitted_detail($id){
+        $user = User::where('id','=',$id)->first();
+        $pageVars = [
+            'data'=>$user,
+            'icon'=>'layout',
+            'title'=> "Article",
+            'subtitle' => "",
+            'form_name' => "Submitted by : " .$user->name,
+        ];
+
+        return View::make('admin.article.user_article')->with($pageVars);
     }
 
     public function admin_edit($id){
@@ -223,6 +259,8 @@ class ArticleController extends Controller
 
             Helper::set_article_pending_count();
             Helper::set_top_category();
+            Helper::get_paper_header_count();
+            Helper::set_author_count();
         }
 
         return json_encode(['status'=> 'true', 'message'=>""]);
@@ -313,6 +351,7 @@ class ArticleController extends Controller
 
             Helper::set_subject_count();
             Helper::set_article_pending_count();
+            Helper::get_paper_header_count();
         }
 
         return json_encode(['status'=> 'true', 'message'=>""]);
@@ -370,6 +409,7 @@ class ArticleController extends Controller
         $update = Communities::where('id','=',$request->id)->update($data);
 
         if($update){
+            Helper::set_article_revision_count();
             return json_encode(['status'=> 'true', 'message'=>""]);
         }
 
@@ -383,6 +423,10 @@ class ArticleController extends Controller
 
     public function paging_pending(Request $request){
         return DataTables::of(Communities::where('type','=','article')->where('row_status','=','pending')->get())->addIndexColumn()->make(true);
+    }
+
+    public function paging_revision(Request $request){
+        return DataTables::of(Communities::where('type','=','article')->where('row_status','=','revised')->get())->addIndexColumn()->make(true);
     }
 
     public function paging_rejected(Request $request){

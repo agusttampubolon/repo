@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Communities;
 use App\Helper\Helper;
+use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
@@ -99,6 +100,43 @@ class StudentPaperController extends Controller
         ];
 
         return View::make('admin.student_paper.edit')->with($pageVars);
+    }
+
+    public function admin_revision(){
+        $pageVars = [
+            'icon'=>'layout',
+            'title'=> 'Student Paper',
+            'subtitle' => 'Add New Student Paper',
+            'form_name' => 'Student Paper Form',
+            'years'=>Helper::get_year()
+        ];
+
+        return View::make('admin.student_paper.revision')->with($pageVars);
+    }
+
+    public function user(Request $request){
+        $pageVars = [
+            'filter'=>$request->filter,
+            'icon'=>'layout',
+            'title'=> 'Student Paper',
+            'subtitle' => '',
+            'form_name' => 'List of Users',
+        ];
+
+        return View::make('admin.student_paper.user')->with($pageVars);
+    }
+
+    public function user_submitted_detail($id){
+        $user = User::where('id','=',$id)->first();
+        $pageVars = [
+            'data'=>$user,
+            'icon'=>'layout',
+            'title'=> "Student Paper",
+            'subtitle' => "",
+            'form_name' => "Submitted by : " .$user->name,
+        ];
+
+        return View::make('admin.student_paper.user_paper')->with($pageVars);
     }
 
     public function submit(Request $request){
@@ -200,8 +238,10 @@ class StudentPaperController extends Controller
             $appendix = $request->file('appendix');
             $appendix->move(public_path('assets/upload/student-paper/'.$code), $data['appendix']);
 
+            Helper::set_paper_header_count();
             Helper::set_paper_pending_count();
             Helper::set_top_category();
+            Helper::set_author_count();
         }
 
         return json_encode(['status'=> 'true', 'message'=>""]);
@@ -366,6 +406,9 @@ class StudentPaperController extends Controller
 
         if($paper->save()){
             Helper::set_paper_pending_count();
+            Helper::set_paper_header_count();
+            Helper::set_top_category();
+            Helper::set_author_count();
             return json_encode(['status'=> 'true', 'message'=>""]);
         }
 
@@ -522,6 +565,8 @@ class StudentPaperController extends Controller
         $update = Communities::where('id','=',$request->id)->update($data);
 
         if($update){
+            Helper::set_paper_revision_count();
+            Helper::set_paper_header_count();
             return json_encode(['status'=> 'true', 'message'=>""]);
         }
 
@@ -568,5 +613,13 @@ class StudentPaperController extends Controller
 
     public function paging_pending(Request $request){
         return DataTables::of(Communities::where('type','=','paper')->where('row_status','=','pending')->get())->addIndexColumn()->make(true);
+    }
+
+    public function paging_revision(Request $request){
+        return DataTables::of(Communities::where('type','=','paper')->where('row_status','=','revised')->get())->addIndexColumn()->make(true);
+    }
+
+    public function paging_user($id, Request $request){
+        return DataTables::of(Communities::where('type','=','paper')->get())->addIndexColumn()->make(true);
     }
 }

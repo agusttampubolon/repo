@@ -18,7 +18,13 @@
                 <div class="row mt-4">
                     <div class="col-lg-4 mb-4">
                         <div class="card">
-                            <img class="card-img-top" src="{{url('/images/'.Helper::get_slug($data->type).'.png')}}" width="100%" alt="Card image cap">
+                            @if($data->type == "article")
+                                <img class="card-img-top" src="{{url('/assets/upload/article'.'/'.$data->code.'/'.$data->cover_image)}}" width="100%">
+                            @elseif($data->type == "paper")
+                                <img class="card-img-top" src="{{url('/assets/upload/student-paper'.'/'.$data->code.'/'.$data->cover_image)}}" width="100%">
+                            @else
+                                <img class="card-img-top" src="{{url('/images/'.Helper::get_slug($data->type).'.png')}}" width="100%" alt="Card image cap">
+                            @endif
                             <ul class="list-group">
                                 <li class="list-group-item">Download
                                     <ul class="list mb-2 mt-2 list-unstyled" style="padding-inline-start: 0px;">

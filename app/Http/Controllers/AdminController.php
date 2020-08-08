@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
 use View;
 use Yajra\DataTables\Facades\DataTables;
@@ -72,6 +73,23 @@ class AdminController extends Controller
 
         if($data->save()){
             Helper::set_user_pending_count();
+
+            if($request->status == "active"){
+                Mail::send('email.user.approve', array("data"=>$data), function($message) use ($data) {
+                    $message->to($data->email);
+                    $message->subject('[Registration Approved] - Polbangtan Medan Repository');
+                    $message->from('repository@polbangtanmedan.ac.id','Polbangtan Medan Repository');
+                });
+            }
+
+            if($request->status == "rejected"){
+                Mail::send('email.user.reject', array("data"=>$data), function($message) use ($data) {
+                    $message->to($data->email);
+                    $message->subject('[Registration Rejected] - Polbangtan Medan Repository');
+                    $message->from('repository@polbangtanmedan.ac.id','Polbangtan Medan Repository');
+                });
+            }
+
             return json_encode(['status'=> 'true', 'message'=> ""]);
         }
     }
@@ -149,29 +167,33 @@ class AdminController extends Controller
         return DataTables::of(User::where('status','=','inactive')->get())->addIndexColumn()->make(true);
     }
 
-    public function user_change_password(Request $request){
-        $input = $request->all();
-        $data = DB::table('users')->where('email' , '=',$input['email'])->first();
-        if($data){
-            if(!$input['new_password'] || $input['new_password'] == ''){
-                return json_encode(["status"=> 'false', "message"=> "New Password is mandatory"]);
-            }else if (!$input['confirmation_password'] || $input['confirmation_password'] ==''){
-                return json_encode(["status"=> 'false', "message"=> "Password Confirmation is mandatory"]);
-            }
-
-            if($input['new_password'] != $input['confirmation_password']){
-                return json_encode(["status"=> 'false', "message"=> "Password doesn't match"]);
-            }
-
-            $newdata = array('password' => Hash::make($input['confirmation_password']));
-            if(DB::table('users')->where('id' , '=',Auth::user()->id)->update($newdata)){
-                return json_encode(["status"=> 'true', "message"=> "Password has been Updated"]);
-            }else{
-                return json_encode(["status"=> 'false', "message"=> "Something went wrong"]);
-            }
-        }else{
-            return json_encode(["status"=> 'false', "message"=> "Data not found"]);
+    public function paging_user_submiited(Request $request){
+        if($request->filter){
+            return DataTables::of(User::where('communities.type','=',$request->type)
+                ->where('users.id','=',$request->filter)
+                ->join('communities','communities.user_id','=','users.id')
+                ->select(DB::raw('users.id,users.name,users.email,users.role,users.identity_number,users.profession,users.created_at,users.approved_date,users.approved_by,users.last_login_at,users.last_login_ip,users.status, count(communities.id) as count'))
+                ->groupBy('users.id','users.name','users.email','users.role','users.identity_number','users.profession','users.created_at','users.approved_date','users.approved_by','users.last_login_at','users.last_login_ip','users.status')
+                ->get())->addIndexColumn()->make(true);
         }
+
+        return DataTables::of(User::where('communities.type','=',$request->type)
+            ->join('communities','communities.user_id','=','users.id')
+            ->select(DB::raw('users.id,users.name,users.email,users.role,users.identity_number,users.profession,users.created_at,users.approved_date,users.approved_by,users.last_login_at,users.last_login_ip,users.status, count(communities.id) as count'))
+            ->groupBy('users.id','users.name','users.email','users.role','users.identity_number','users.profession','users.created_at','users.approved_date','users.approved_by','users.last_login_at','users.last_login_ip','users.status')
+            ->get())->addIndexColumn()->make(true);
+    }
+
+    public function paging_user_detail($id,$type,Request $request){
+        return DataTables::of(Communities::where('type','=',$type)
+            ->where('user_id','=',$id)
+            ->get())
+            ->addIndexColumn()
+            ->make(true);
+    }
+
+    public function user_change_password(Request $request){
+
     }
 
     public function approve(Request $request){
@@ -192,10 +214,18 @@ class AdminController extends Controller
 
         if($communities->type == "article"){
             Helper::set_article_pending_count();
+            Helper::get_article_header_count();
+            Helper::set_author_count();
+
         }elseif($communities->type == "paper"){
             Helper::set_paper_pending_count();
+            Helper::get_paper_header_count();
+            Helper::set_author_count();
         }
+
         Helper::set_top_category();
+        $this->send_email($communities, "approved", $communities->type);
+
         return json_encode(['status'=> 'true', 'message'=>""]);
     }
 
@@ -226,9 +256,12 @@ class AdminController extends Controller
 
         if($communities->type == "article"){
             Helper::set_article_pending_count();
+            Helper::get_article_header_count();
         }elseif($communities->type == "paper"){
             Helper::set_paper_pending_count();
+            Helper::get_paper_header_count();
         }
+        $this->send_email($communities, "rejected", $communities->type);
 
         return json_encode(['status'=> 'true', 'message'=>""]);
     }
@@ -251,10 +284,13 @@ class AdminController extends Controller
 
         if($communities->type == "article"){
             Helper::set_article_pending_count();
+            Helper::get_article_header_count();
         }elseif($communities->type == "paper"){
             Helper::set_paper_pending_count();
+            Helper::get_paper_header_count();
         }
         Helper::set_top_category();
+        Helper::set_author_count();
 
         return json_encode(['status'=> 'true', 'message'=>""]);
     }
@@ -299,11 +335,45 @@ class AdminController extends Controller
 
         if($communities->type == "article"){
             Helper::set_article_pending_count();
+            Helper::get_article_header_count();
+            Helper::set_author_count();
         }elseif($communities->type == "paper"){
             Helper::set_paper_pending_count();
+            Helper::get_paper_header_count();
+            Helper::set_author_count();
         }
 
-        return json_encode(['status'=> 'true', 'message'=>""]);
+        $this->send_email($communities, "revised", $communities->type);
+        return json_encode(['status'=> 'true', '$input = $request->all();
+        $data = DB::table(\'users\')->where(\'email\' , \'=\',$input[\'email\'])->first();
+        if($data){
+            if(!$input[\'new_password\'] || $input[\'new_password\'] == \'\'){
+                return json_encode(["status"=> \'false\', "message"=> "New Password is mandatory"]);
+            }else if (!$input[\'confirmation_password\'] || $input[\'confirmation_password\'] ==\'\'){
+                return json_encode(["status"=> \'false\', "message"=> "Password Confirmation is mandatory"]);
+            }
+
+            if($input[\'new_password\'] != $input[\'confirmation_password\']){
+                return json_encode(["status"=> \'false\', "message"=> "Password doesn\'t match"]);
+            }
+
+            $newdata = array(\'password\' => Hash::make($input[\'confirmation_password\']));
+            if(DB::table(\'users\')->where(\'id\' , \'=\',Auth::user()->id)->update($newdata)){
+                return json_encode(["status"=> \'true\', "message"=> "Password has been Updated"]);
+            }else{
+                return json_encode(["status"=> \'false\', "message"=> "Something went wrong"]);
+            }
+        }else{
+            return json_encode(["status"=> \'false\', "message"=> "Data not found"]);
+        }message'=>""]);
+    }
+
+    public function send_email($data, $status, $type){
+        Mail::send('email.'.$type.'.'.$status, array("data"=>$data), function($message) use ($data, $status, $type) {
+            $message->to($data->email);
+            $message->subject('['.ucwords($status).' '.ucwords($type).'] - Polbangtan Medan Repository');
+            $message->from('repository@polbangtanmedan.ac.id','Polbangtan Medan Repository');
+        });
     }
 
 }

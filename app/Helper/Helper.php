@@ -14,11 +14,16 @@ class Helper
 {
     protected static $CACHE_KEY_USER_PENDING = "__count_pending_user";
     protected static $CACHE_KEY_ARTICLE_PENDING = "__count_pending_article";
+    protected static $CACHE_KEY_ARTICLE_REVISION = "__count_revision_article";
     protected static $CACHE_KEY_PAPER_PENDING = "__count_pending_paper";
+    protected static $CACHE_KEY_PAPER_REVISION = "__count_pending_revision";
     protected static $CACHE_KEY_SUBJECT_COUNT = "__count_subject";
     protected static $CACHE_KEY_AUTHOR_COUNT = "__count_author";
     protected static $CACHE_KEY_TOP_CATEGORY = "__top_category";
     protected static $CACHE_DOWNLOAD_COUNT = "__download_count";
+    protected static $CACHE_KEY_ARTICLE_HEADER = "__count_header_article";
+    protected static $CACHE_KEY_PAPER_HEADER = "__count_header_paper";
+
     protected static $SLUG = ["paper"=>"student-paper","article"=>"article","book"=>"book","monograph"=>"monograph","guide book"=>"guide-book", "others"=> "others","archive"=>"archive"];
 
     public static function get_user_pending_count(){
@@ -47,6 +52,42 @@ class Helper
 
     public static function set_article_pending_count(){
         Cache::forget(self::$CACHE_KEY_ARTICLE_PENDING);
+    }
+
+    public static function get_article_header_count(){
+        $count = Cache::get(self::$CACHE_KEY_ARTICLE_HEADER);
+
+        if($count == null){
+            $count = Communities::where('type','=','article')
+                ->where('row_status','=','pending')
+                ->orWhere(DB::raw("row_status='revised' and is_revised=1"))
+                ->get()
+                ->count();
+            Cache::forever(self::$CACHE_KEY_ARTICLE_HEADER,$count == 0 ? "0" : $count);
+        }
+        return $count;
+    }
+
+    public static function set_article_header_count(){
+        Cache::forget(self::$CACHE_KEY_ARTICLE_HEADER);
+    }
+
+    public static function get_paper_header_count(){
+        $count = Cache::get(self::$CACHE_KEY_PAPER_HEADER);
+
+        if($count == null){
+            $count = Communities::where('type','=','paper')
+                ->where('row_status','=','pending')
+                ->orWhere(DB::raw("row_status='revised' and is_revised=1"))
+                ->get()
+                ->count();
+            Cache::forever(self::$CACHE_KEY_PAPER_HEADER,$count == 0 ? "0" : $count);
+        }
+        return $count;
+    }
+
+    public static function set_paper_header_count(){
+        Cache::forget(self::$CACHE_KEY_PAPER_HEADER);
     }
 
     public static function get_paper_pending_count(){
@@ -172,5 +213,39 @@ class Helper
 
     public static function get_slug($type){
         return self::$SLUG[$type];
+    }
+
+    public static function get_article_revision_count(){
+        $count = Cache::get(self::$CACHE_KEY_ARTICLE_REVISION);
+
+        if($count == null){
+            $count = Communities::where('row_status','=','revised')
+                ->where('is_revised','=',1)
+                ->where('type','=','article')
+                ->get()->count();
+            Cache::forever(self::$CACHE_KEY_ARTICLE_REVISION,$count == 0 ? "0" : $count);
+        }
+        return $count;
+    }
+
+    public static function set_article_revision_count(){
+        Cache::forget(self::$CACHE_KEY_ARTICLE_REVISION);
+    }
+
+    public static function get_paper_revision_count(){
+        $count = Cache::get(self::$CACHE_KEY_PAPER_REVISION);
+
+        if($count == null){
+            $count = Communities::where('row_status','=','revised')
+                ->where('is_revised','=',1)
+                ->where('type','=','paper')
+                ->get()->count();
+            Cache::forever(self::$CACHE_KEY_PAPER_REVISION,$count == 0 ? "0" : $count);
+        }
+        return $count;
+    }
+
+    public static function set_paper_revision_count(){
+        Cache::forget(self::$CACHE_KEY_PAPER_REVISION);
     }
 }

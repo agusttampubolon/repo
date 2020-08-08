@@ -21,6 +21,7 @@
                         <th>Created By</th>
                         <th>Approved At</th>
                         <th>Approved By</th>
+                        <th data-priority="2" style="text-align: center;">Is Revised</th>
                         <th data-priority="2" style="text-align: center;">Status</th>
                         <th data-priority="1" style="text-align: center;">Actions</th>
                     </tr>
@@ -42,6 +43,7 @@
                         <th>Created By</th>
                         <th>Approved At</th>
                         <th>Approved By</th>
+                        <th data-priority="2" style="text-align: center;">Is Revised</th>
                         <th data-priority="2" style="text-align: center;">Status</th>
                         <th data-priority="1" style="text-align: center;">Actions</th>
                     </tr>

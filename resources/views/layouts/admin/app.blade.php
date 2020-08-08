@@ -27,11 +27,16 @@
     <a class="navbar-brand d-none d-sm-block pl-0" href="{{url('/admin')}}">
         <img class="align-middle" src="{{url('images/logopolbangtan.png')}}"/> Admin Repository
     </a>
-    <button class="btn sb-btn-icon sb-btn-transparent-dark order-1 order-lg-0 mr-lg-2" id="sidebarToggle" href="#"><i data-feather="menu"></i></button>
+    <button class="btn sb-btn-icon sb-btn-transparent-dark order-1 order-lg-0 mr-lg-2" id="sidebarToggle" href=""><i data-feather="menu"></i></button>
     <form class="form-inline mr-auto d-none d-lg-block">
         {{--<input class="form-control sb-form-control-solid mr-sm-2" type="search" placeholder="Search" aria-label="Search" />--}}
     </form>
-
+    <form class="form-inline ml-auto mr-3">
+        <a class="btn btn-outline-success btn-sm" href="https://docs.google.com/document/d/11kVTfQUHZYFgizWYlVKnmKk1G0szEUrHqmB9_n1Pxlk/edit?usp=sharing" target="_blank">
+            <div class="d-none d-sm-inline-flex align-items-center"><i class="mr-1" data-feather="book"></i>Documentation</div>
+            <div class="d-inline d-sm-none">Docs</div>
+        </a>
+    </form>
     <ul class="navbar-nav align-items-center">
 
         <li class="nav-item dropdown no-caret mr-3 sb-dropdown-user">
@@ -72,7 +77,7 @@
                     <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseArticle" aria-expanded="false" aria-controls="collapseLayouts">
                         <div class="sb-nav-link-icon"><i data-feather="layout"></i></div>
                         Article
-                        <span class="{{Helper::get_article_pending_count() == "0" ? '' : 'badge badge-success ml-2'}}">{{Helper::get_article_pending_count() == "0" ? "" : Helper::get_article_pending_count() }}</span>
+                        <span class="{{Helper::get_article_header_count() == "0" ? '' : 'badge badge-success ml-2'}}">{{Helper::get_article_header_count() == "0" ? "" : Helper::get_article_header_count() }}</span>
                         <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
                     </a>
                     <div class="collapse {{ request()->is('admin/article/*') ? 'show' : ' ' }}" id="collapseArticle" data-parent="#accordionSidenav">
@@ -81,9 +86,13 @@
                             <a class="nav-link" href="{{url('/admin/article/publish')}}">Publish</a>
                             <a class="nav-link" href="{{url('/admin/article/unpublish')}}">Unpublish</a>
                             <a class="nav-link" href="{{url('/admin/article/rejected')}}">Rejected</a>
+                            <a class="nav-link" href="{{url('/admin/article/revision')}}">Revised
+                                <span class="badge badge-success ml-2">{{Helper::get_article_revision_count()}}</span>
+                            </a>
                             <a class="nav-link" href="{{url('/admin/article/pending')}}">Need For Approval
                                 <span class="badge badge-success ml-2">{{Helper::get_article_pending_count()}}</span>
                             </a>
+                            <a class="nav-link" href="{{url('/admin/article/user')}}">User</a>
                             <a class="nav-link" href="{{url('/admin/article/add')}}">New</a>
                         </nav>
                     </div>
@@ -127,16 +136,20 @@
                     <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseStudentPaper" aria-expanded="false" aria-controls="collapseLayouts">
                         <div class="sb-nav-link-icon"><i data-feather="layout"></i></div>
                         Student Paper
-                        <span class="{{Helper::get_paper_pending_count() == "0" ? '' : 'badge badge-success ml-2'}}">{{Helper::get_paper_pending_count() == "0" ? "" : Helper::get_paper_pending_count() }}</span>
+                        <span class="{{Helper::get_paper_header_count() == "0" ? '' : 'badge badge-success ml-2'}}">{{Helper::get_paper_header_count() == "0" ? "" : Helper::get_paper_header_count() }}</span>
                         <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
                     </a>
                     <div class="collapse {{ request()->is('admin/student-paper/*') ? 'show' : ' ' }}" id="collapseStudentPaper" data-parent="#accordionSidenav">
                         <nav class="sb-sidenav-menu-nested nav accordion" id="accordionSidenavLayout">
                             <a class="nav-link" href="{{url('/admin/student-paper/all')}}">All</a>
                             <a class="nav-link" href="{{url('/admin/student-paper/rejected')}}">Rejected</a>
+                            <a class="nav-link" href="{{url('/admin/student-paper/revision')}}">Revised
+                                <span class="badge badge-success ml-2">{{Helper::get_paper_revision_count()}}</span>
+                            </a>
                             <a class="nav-link" href="{{url('/admin/student-paper/pending')}}">Need For Approval
                                 <span class="badge badge-success ml-2">{{Helper::get_paper_pending_count()}}</span>
                             </a>
+                            <a class="nav-link" href="{{url('/admin/student-paper/user')}}">User</a>
                             <a class="nav-link" href="{{url('/admin/student-paper/add')}}">New</a>
                         </nav>
                     </div>
@@ -186,7 +199,9 @@
                             <a class="nav-link" href="{{url('/admin/user/new')}}">New User Admin</a>
                         </nav>
                     </div>
-
+                    <div class="sb-sidenav-menu-heading">Configuration</div>
+                    <a class="nav-link" target="_blank" href="{{url('/clear')}}"><div class="sb-nav-link-icon"><i data-feather="settings"></i></div>
+                        Clear Cache</a>
                 </div>
             </div>
             <div class="sb-sidenav-footer">

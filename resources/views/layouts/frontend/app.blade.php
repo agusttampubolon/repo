@@ -125,7 +125,7 @@
         <div class="container">
             <div class="collapse navbar-collapse" id="mobile_menu">
                 <ul class="navbar-nav mr-auto">
-                    <li class="nav-item {{request()->is("/")}}">
+                    <li class="nav-item {{request()->is("/")? "active" : ""}}">
                         <a class="nav-link" href="/">HOME <span class="sr-only">(current)</span></a>
                     </li>
                     <li class="nav-item {{request()->is("article*") ? "active" : ""}}">

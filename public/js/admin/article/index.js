@@ -9,6 +9,8 @@ function init_data_table(status) {
         pending: "/admin/article/pending/paging",
         publish: "/admin/article/publish/paging",
         unpublish: "/admin/article/unpublish/paging",
+        revision: "/admin/article/revision/paging",
+        user : "/admin/article/user_detail/paging/"+ $('input[name="user_id"]').val()+"/article"
     };
     let table = $('#dt_article');
     if (table != null) {
@@ -58,6 +60,7 @@ function init_data_table(status) {
                 { data: 'created_by', name: 'created_by'},
                 { data: 'approved_at', name: 'approved_at'},
                 { data: 'approved_by', name: 'approved_by'},
+                { data: 'is_revised', name: 'is_revised'},
                 { data: 'row_status', name: 'row_status'},
                 { data: 'id', name: 'id'},
             ],
@@ -142,11 +145,32 @@ function init_data_table(status) {
                     className: "text-center",
                     render: function(data, type, full, meta) {
                         var row_status = {
+                            0 : "danger",
+                            1 : "success"
+                        };
+
+                        var status_name = {
+                            0 : "No",
+                            1 : "Yes"
+                        };
+
+                        if (typeof row_status[data] === 'undefined') {
+                            return data;
+                        }
+                        return '<span class="p-1 badge badge-' + row_status[data] + '">'+status_name[data]+'</span>';
+                    },
+                },
+                {
+                    targets: 16,
+                    className: "text-center",
+                    render: function(data, type, full, meta) {
+                        var row_status = {
                             active: "success",
                             blocked : "danger",
                             pending:  "warning",
                             deleted : "dark",
-                            rejected : "dark"
+                            rejected : "dark",
+                            revised : "primary"
                         };
 
                         if (typeof row_status[data] === 'undefined') {
@@ -156,7 +180,7 @@ function init_data_table(status) {
                     },
                 },
                 {
-                    targets: 16,
+                    targets: 17,
                     className: "text-center",
                     render: function(data, type, full, meta) {
                         return '<a href="/admin/article/edit/'+data+'" class="btn btn-datatable btn-icon btn-transparent-dark btn-sm p-0 mr-2"><i class="fas fa-edit"></i></a>' +
